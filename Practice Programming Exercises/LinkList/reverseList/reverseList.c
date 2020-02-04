@@ -1,4 +1,5 @@
-
+// By Mushan, 20T0
+//https://github.com/mushanshanshan
 #include "list.h"
 
 void listReverse(List l) {

@@ -1,4 +1,5 @@
-
+// By Mushan, 20T0
+//https://github.com/mushanshanshan
 #include "list.h"
 
 List insertNode(List l, int value){
