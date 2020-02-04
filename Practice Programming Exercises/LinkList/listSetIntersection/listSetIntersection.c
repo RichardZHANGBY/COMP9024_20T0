@@ -13,8 +13,6 @@ List listSetIntersection(List s1, List s2) {
 
 	while(curr1 != NULL && curr2 != NULL){
 
-		printf("s1=%d,s2=%d\n", curr1->value, curr2->value);
-
 		if(curr1->value == curr2->value ) {
 			curr->next = newNode(curr2->value);
 			curr = curr->next;
@@ -35,6 +33,10 @@ List listSetIntersection(List s1, List s2) {
 			
 	}
 	s3->head = start->next;
+
+	freeList(ordereds1);
+	freeList(ordereds2);
+	free(start);
 	return s3;
 	
 }

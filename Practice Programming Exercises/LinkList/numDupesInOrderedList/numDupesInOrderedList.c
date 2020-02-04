@@ -3,7 +3,7 @@
 
 int numDupesInOrderedList(List l) {
 	Node curr = l->head;
-	int num;
+	int num = 0;
 
 	while(curr->next != NULL){
 		if ( curr->value == curr->next->value){

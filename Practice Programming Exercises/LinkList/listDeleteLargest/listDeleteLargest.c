@@ -19,12 +19,15 @@ int listDeleteLargest(List l) {
 	}
 	
 	if (previous == NULL){
+		free(l->head);
 		l->head = nextnode;
 	}
 	else if (nextnode == NULL){
+		free(previous->next);
 		previous->next = NULL;
 	}
 	else{
+		free(previous->next);
 		previous->next = nextnode;
 	}
 	
