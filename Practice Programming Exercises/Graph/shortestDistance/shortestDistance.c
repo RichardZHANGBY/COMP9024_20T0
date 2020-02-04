@@ -1,3 +1,5 @@
+// By Mushan, 20T0
+//https://github.com/mushanshanshan
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +26,18 @@ int shortestDistance(Graph g, int src, int dest) {
 			}
 		}
 	}
+	
+	QueueFree(q);
+	int time = 0;
+	while(dest != src){
+		if (dest == -1){
+			return -1;
+		}
+		dest = visited[dest];
+		time++;
+	}
+	
+	
 	return time;
 }
 

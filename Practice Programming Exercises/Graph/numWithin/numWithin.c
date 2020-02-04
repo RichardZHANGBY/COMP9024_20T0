@@ -1,3 +1,5 @@
+// By Mushan, 20T0
+//https://github.com/mushanshanshan
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,54 +7,56 @@
 #include "Graph.h"
 #include "Queue.h"
 
-int checkMinimal(int *prev, int len){
-	int min = -1, i, num;
-	
-	for (i=0; i<len; i++){
-		if ( prev[i] != -2 && prev[i] != -1 && ( min == -1 || min > prev[i])){
-			min = prev[i];
-			num = i;
-		}
-	}
-	return num;
-}
-
 int numWithin(Graph g, int src, int dist) {
-	int prev[GraphNumVertices(g)];
-	int distance[GraphNumVertices(g)];
-	int i;
-	int vertic;
-	int nextv;
-	
-	for (i = 0; i < GraphNumVertices(g); i++){
-		prev[i] = -1;
-		distance[i] = -1;
+	if(dist == 0){
+		return 1;
 	}
-	prev[src] = 0;
+	int visited[GraphNumVertices(g)];
+	int distance[GraphNumVertices(g)];
+	int v;
+	Queue q = QueueNew();
+	QueueEnqueue(q, src);
+	int times;
+		
+	for (int i = 0; i < GraphNumVertices(g); i++){
+		visited[i] = -1;
+	}
 	
-	for (i = 0; i < GraphNumVertices(g); i++){
-			vertic = checkMinimal(prev, GraphNumVertices(g));
-			distance[vertic] = prev[vertic];
-			prev[vertic] = -2;
-			
-			for (nextv = 0; nextv < GraphNumVertices(g); nextv++){
-				if (GraphIsAdjacent(g, vertic, nextv) && nextv != vertic && prev[nextv] != -2){
-					if (prev[nextv] == -1){
-						prev[nextv] = distance[vertic] + 1;
-					}
-					else if (prev[nextv] > distance[vertic] + 1){
-						prev[nextv] = distance[vertic] + 1;
-					}
-				}
+	visited[src] = src;
+	while(!QueueIsEmpty(q)){
+		v = QueueDequeue(q);
+		for (int i=0; i < GraphNumVertices(g); i++){
+			if (visited[i] == -1 && GraphIsAdjacent(g, v, i)) {
+				QueueEnqueue(q, i);
+				visited[i] = v;
 			}
 		}
+	}
+		
+	QueueFree(q);
 	
-	for (i=0, vertic=0; i < GraphNumVertices(g); i++){
-		if (distance[i] <= dist){
-			vertic++;
+	
+	for (int i=0; i < GraphNumVertices(g); i++){
+		v = visited[i];
+		times = 0;
+		while (v != src){
+			if (v == -1){
+				distance[i] = -1;
+				break;
+			}
+			times++;
+			v = visited[v];
 		}
+		distance[i] = times;
+	}	
+	
+	times = 0;
+	for (int i=0; i < GraphNumVertices(g); i++){
+		if(distance[i] < dist && visited[i]>=0){
+			times++;
+		}		
 	}
 	
-	return vertic;
+	return times;
 }
 

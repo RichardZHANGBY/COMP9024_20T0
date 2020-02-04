@@ -1,3 +1,5 @@
+// By Mushan, 20T0
+//https://github.com/mushanshanshan
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,9 +8,13 @@
 #include "Queue.h"
 
 int furthestReachable(Graph g, int src) {
+
 	int visited[GraphNumVertices(g)];
 	int v;
 	int dest = src;
+	int max = 0;
+	int currdistan = 0;
+
 	Queue q = QueueNew();
 	QueueEnqueue(q, src);
 	
@@ -22,10 +28,25 @@ int furthestReachable(Graph g, int src) {
 			if (visited[i] == -1 && GraphIsAdjacent(g, v, i)) {
 				QueueEnqueue(q, i);
 				visited[i] = v;
-				dest = i;
 			}
 		}
 	}
+	QueueFree(q);
+
+	for (int i=GraphNumVertices(g); i >= 0; i--){
+		v = i;
+		currdistan = 0;
+		while(v != src && visited[v] >= 0 && visited[v] < GraphNumVertices(g) && currdistan <= GraphNumVertices(g)){
+			currdistan++;
+			v = visited[v];
+		}
+		if (currdistan > max && currdistan < GraphNumVertices(g)){
+			max = currdistan;
+			dest = i;
+		}
+	}
+	
+
 	return dest;
 }
 
